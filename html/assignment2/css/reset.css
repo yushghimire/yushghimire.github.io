@@ -1,0 +1,35 @@
+*{
+	margin: 0px;
+	padding:0px;
+	font-family:Arial,"Times New Roman";  
+	
+}
+html{
+	font-size: 16px;
+}
+a{
+	text-decoration: none;
+	color: #000000;
+}
+
+.clearfix:before, .clearfix:after{
+	content: "";
+	display: table;
+}
+.clearfix:after{
+	clear: both;
+}
+
+.block-title{
+	font-size: 15px;
+	height: 42px;
+	line-height: 42px;
+	padding: 0px 12px;
+	color: white;
+	background-color: #2fc1da;
+}
+.container{
+	max-width: 58.625em;
+	margin:0 auto;
+	padding: 0em 2em;
+}

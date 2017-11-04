@@ -1,0 +1,376 @@
+.search-input{
+	background: url(../images/search-bar.png) no-repeat; 
+	width: 276px;
+	float: left;
+}
+.search-input input{
+	width: 239px; 
+	background-color: transparent; 
+	border: 0 solid; 
+	padding: 3px 8px;
+	font-size: 11px;
+}
+.search-input input:focus{
+	outline: none;
+}
+.search-button a{
+	font-size: 9px;
+	color: #fff;
+	padding:  3px 5px 5px 8px;
+	display: block;
+}
+.user-nav ul{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+.user-nav ul li{
+	width: auto;
+	float: left;
+	padding: 0px 5px;
+}
+.user-nav ul li a{
+	font-size: 13px;
+}
+.user-nav ul li+li{
+	background: url(../images/pipe-sign.png) 0 50%;
+	background-repeat:no-repeat;
+}
+.usernav ul:last-child{
+	padding: 0px 0px 0px 5px;
+}
+.user-options ul{
+	list-style: none;
+	margin:0;
+	padding: 0px;
+}
+.user-options ul li{
+	float: left;
+	margin: auto;
+	padding: 0px 15px;
+}
+.user-options ul li a{
+	font-size: 13px;
+}
+.user-notification ul{
+	list-style: none;
+	margin: 0px;
+}
+.user-notification ul li{
+	float: left;
+	width: auto;
+	color: #aaa;
+}
+.user-notification ul li:active{
+	color:#000;
+}
+.user-notification ul li:first-child{
+	background-image: url("../images/topic-box-image.png");
+	background-repeat: no-repeat;
+	padding-left: 18px;
+	margin-right: 31px;
+}
+.user-notification ul li:last-child{
+	background-image: url("../images/friend-request-image.png");
+	background-repeat: no-repeat;
+	padding-left: 25px;
+}
+.user-notification ul li.enabled{
+	color:#000;
+}
+.user-notification ul li{
+	font-size: 11px;
+}
+
+.box-list ul{
+	list-style: none;
+	font-size: 11px;
+}
+.box-list ul li{
+	width: 97.4226804124%;
+	padding: 0px 2.5px;
+	display: table;
+	content: "";
+}
+.box-list ul li:hover{
+	background-color: #fff;
+}
+.recent-search ul li a:first-child{
+	float: left;
+	width: 137px;
+	padding: 10px 8.5px;
+}
+.recent-search ul li a:last-child img{
+	float: right;
+	padding: 10px;
+}
+.main-heading{
+	font-size: 26px;
+	/*background-color: red;*/
+	line-height: 0px;
+	margin-bottom: 12px;
+	padding:10px 0px 9px 0px;
+}
+.tabs ul{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+.tabs ul li{
+	width: 110px;
+	float: left;
+	margin: 0px 5px;
+	padding: 0px 2px;
+	background-image: url("../images/inactive-body-tab.png");
+	background-repeat: no-repeat;
+	font-size: 11px;
+}
+.tabs ul .active{
+	background-image: url("../images/active-body-tab.png");
+	background-repeat: no-repeat;
+	font-size: 11px;
+}
+.tabs ul li a{
+	display: block;
+	text-align: center;
+}
+.tabs ul .active a{
+	color: #fff;
+	display: block;
+}
+.tabs ul li a{
+	line-height: 28px;
+}
+.tabs ul li:hover{
+	background-image: url("../images/active-body-tab.png");
+	background-repeat: no-repeat;
+	color: #fff;
+	font-size: 11px;
+}
+.tabs ul li:hover a{
+	color: #fff;
+}
+.post-info h2{
+	font-size: 15px;
+	line-height: 24px;
+	font-weight: bold;
+}
+.post-info ul{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	display: table;
+	font-size: 13px;
+	line-height: 20px;
+}
+.post-info ul li{
+	float: left;
+	padding: 0px 5px;
+}
+.post-info ul li:first-child{
+	padding: 0px 5px 0px 0px;
+}
+
+.post-info ul li+li{
+	background: url(../images/pipe-sign.png) 0 50%;
+	background-repeat:no-repeat;
+}
+
+.post-info ul li a{
+	color:#309db2;
+}
+.post-info ul li:last-child{
+	padding: 0px 0px 0px 5px;
+}
+.post-info ul li:last-child a{
+	color: #8fb057;
+}
+.post-info p{
+	font-size: 13px;
+	line-height: 20px;
+}
+.post-info p span{
+	color: #309db2;
+}
+.entry{
+	font-size: 11px;
+	line-height: 11px;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 11px;
+	color:#309db2;
+}
+.comment{
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 11px;
+	color:#309db2;
+}
+.hot-invite{
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 11px;
+	color:#d43e1b;
+}
+.list-video-tutorial ul li{
+	width: 87.5%;
+	padding: 10px 6.81818181818%;
+}
+.list-video-tutorial ul li a{
+	display: block;
+}
+@media screen and (max-width:1002px){
+	.search-wrapper{
+		display: none;
+	}
+	.user-nav-info{
+		width: auto;
+	}
+	.user-options{
+		display: none;
+	}
+	.col3-left{
+		background-image: none; 
+	}
+	.left-container{
+		display: none;
+	}
+	.right-container{
+		width: 100%;
+		float: none;
+		margin: 0px auto;
+	}
+	.tab-holder{
+		background-color: #f2f2f2;
+	}
+	.tab-wrapper{
+		background-image: none;
+	}
+	.tabs{
+		background: none;
+		padding: 2px 0px 0px 0px;
+	}
+	.post-info{
+		padding: 0px 1%;
+	}
+	.footer-wrapper{
+		position: absolute;
+		bottom: 0px;
+	}
+}
+
+@media screen and (max-width: 760px){
+	.logo-wrapper{
+		float: none;
+		margin: 0px auto;
+	}
+	.menu{
+		font-weight: bold;
+		display: block;
+		margin: 6px auto;
+		text-align: center;
+		padding: 10px;
+		background-color: #f4f4f4;
+	}
+	.menu ul{
+		font-weight:lighter;
+		display: none;
+		list-style:none;
+		margin: 0px;
+		padding: 0px;
+	}
+	.menu:hover ul{
+		display: block;
+	}
+	.menu ul li:first-child{
+		border-top:1px solid;
+	}
+	.menu ul li{
+		padding: 10px;
+		font-size: 11px;
+	}
+	.menu ul li:hover{
+		background-color: #7dd9e8;
+	}
+	.menu ul li a{
+		display: block;
+	}
+	.user-notification {
+		float: none;	
+	}
+	.user-notification ul{
+		display: table;
+		content: "";
+		float: right;
+	}
+	.user-nav-info{
+		display: none;
+	}
+	.main{
+		width: 100%;
+	}
+	.post-info{
+		float: right;
+		margin: 0px auto;
+		padding: 0px 10px;
+	}
+	.col3-inner-right{
+		display: none;
+	}
+	.footer-wrapper{
+		position: static;
+	}
+
+}
+@media screen and (max-width: 400px){
+	.tabs{
+		width: 90%;
+		margin: 0px auto;
+	}
+	.tabs ul{
+		display: table;
+		content: "";
+		margin: 0px auto;
+	}
+	.tabs ul li:last-child{
+		float: right;
+	}
+	.all-entries-wrapper{
+		width: 100%;
+		margin: 0px auto;
+	}
+	.subscribed-wrapper{
+		width: 100%;
+		margin: 0px auto;
+		border-top:2px solid #7dd9e8; 
+	}
+	.all-entry-tabs{
+		float: none;
+	}
+	.subscribed-tabs{
+		float: none;
+	}
+	.user{
+		float: none;
+	}
+	.frame ,.user-image{
+		margin: 0px auto;
+	}
+	.post-info{
+		float: none;
+		text-align: center;
+	}
+	.post-info ul {
+		margin: 0px auto;
+	}
+	.post-info ul li{
+		float: none;
+	}
+	.post-info ul li+li{
+		background-image: none; 
+	}
+	.footer-nav{
+		display: none;
+	}
+}
+
