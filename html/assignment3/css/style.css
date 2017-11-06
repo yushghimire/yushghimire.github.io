@@ -422,6 +422,9 @@
 	content:">";
 	padding: 0px 10px;
 }
+.footer-nav ul li a{
+		color: #fff;
+	}
 .social-icon-group ul li{
 	padding: 0px 15px;
 }
