@@ -28,7 +28,7 @@ for(var count=0;count<100;count++){
 		var top = this.style.top;
 		var left = this.style.left;	
 		var list = document.createElement("li");
-		list.setAttribute("class","buffalo");
+		list.setAttribute("class","positionList");
 		list.appendChild(document.createTextNode("left: "+left+" top: "+top));
 		unOrderedList.appendChild(list);
 	};
