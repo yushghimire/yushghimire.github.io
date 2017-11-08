@@ -5,16 +5,18 @@ mainWrapper.style.position = "relative";
 mainWrapper.style.backgroundColor="grey";
 
 
+
+
 var buttonLeft = document.createElement("button");
-buttonLeft.style.marginRight="10px";
 buttonLeft.appendChild(document.createTextNode("left"));
 
 mainWrapper.appendChild(buttonLeft);
 
 var buttonRight = document.createElement("button");
+buttonRight.style.marginRight="10px";
 buttonRight.appendChild(document.createTextNode("right"));
-
 mainWrapper.appendChild(buttonRight);
+
 
 
 var imageWrapper = document.createElement("div");
