@@ -1,4 +1,10 @@
 var main=document.getElementById("main-wrapper");
+var bodies = document.getElementsByTagName("body");
+var unOrderedList= document.createElement("ul");
+
+unOrderedList.style.fontSize ="15px";
+
+bodies[0].appendChild(unOrderedList);
 
 main.style.width = '1000px';
 main.style.height ='500px';
@@ -76,6 +82,15 @@ for(var y=0; y<20;y++){
 	div.onclick = function(){
 
 		this.parentNode.removeChild(this);
+
+		var top = this.style.top;
+		var left = this.style.left;	
+		var list = document.createElement("li");
+
+		list.setAttribute("class","positionList");
+		list.appendChild(document.createTextNode("left: "+left+" top: "+top));
+		
+		unOrderedList.appendChild(list);
 	}
 
 	setInterval(ant.changePosition(),10);
