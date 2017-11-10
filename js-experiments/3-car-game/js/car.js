@@ -1,46 +1,57 @@
-var CAR_WIDTH=100;
+var CAR_WIDTH=50;
 var mainWrapper=document.getElementById('main-wrapper');
 var frame=document.createElement('div');
 var imageHolder=document.createElement('div');
+var carHolder=document.createElement('div');
 var car;
 
-function Car(carId){
+function Car(parentElement){
 
-	this.element=document.getElementById(carId);
-	this.x=600;
+	this.element=document.getElementById(parentElement);
+	this.x=350;
 
 	this.createCar=function(){
 
-		car=document.createElement('div');
+		carHolder.style.height ='100px';
+		carHolder.style.width='50px';
+		carHolder.style.position = 'absolute';
+		carHolder.style.zIndex = '10';
+		carHolder.style.top = '500px';
+		carHolder.style.left = this.x+'px';
 
-		car.style.background = 'url(images/car.png)';
+		carHolder.setAttribute('id', 'car-holder');
+
+		frame.appendChild(carHolder);
+
+		car=document.createElement('img');
+
+		car.setAttribute('src', 'images/car.png');
+
 		car.style.backgroundRepeat = 'no-repeat';
-		car.style.height='300px';
-		car.style.width = CAR_WIDTH+'px';
-		car.style.position = 'absolute';
-		car.style.zIndex = '10';
-		car.style.top='500px';	
-		car.style.left=this.x+'px';
+		car.style.height='100%';
+		car.style.width = '100%';
 
-		this.element.appendChild(car);
+		carHolder.appendChild(car);
 	}
 
 	this.changeDirection=function(direction){
 
-		if(this.x<=200){
+		console.log(this.x);
+
+		if(this.x<=230){
 
 			this.x++;
-			car.style.left=this.x+'px';
+			carHolder.style.left=this.x+'px';
 		}
-		else if(this.x + CAR_WIDTH >=930){
+		else if(this.x + CAR_WIDTH >=561){
 
 			this.x--;
-			car.style.left=this.x+'px';
+			carHolder.style.left=this.x+'px';
 		}
 		else{
 
 			this.x=this.x+direction*5;
-			car.style.left=this.x+'px';
+			carHolder.style.left=this.x+'px';
 		}
 
 	}
@@ -49,12 +60,12 @@ function Car(carId){
 function World(elementId){
 
 	this.element=document.getElementById(elementId);
-	this.top =-18000;
+	this.top =0;
 
 	this.changePosition=function(){
 
 		this.top +=10;
-		this.element.style.top =this.top +'px';  
+		this.element.style.backgroundPositionY=this.top +'px';  
 
 	}
 
@@ -73,11 +84,11 @@ var createWorld=function(){
 
 	mainWrapper.append(frame);
 
-	imageHolder.style.height='19000px';
-	imageHolder.style.width = '730px';
+	imageHolder.style.height='730px';
+	imageHolder.style.width = '500px';
 	imageHolder.style.backgroundColor = 'red';
 	imageHolder.style.left='200px';
-	imageHolder.style.background = 'url(images/road.jpg)';
+	imageHolder.style.background = 'url(images/track.png)';
 	imageHolder.style.backgroundRepeat = 'repeat-y';
 	imageHolder.style.position = 'absolute';
 
@@ -92,6 +103,7 @@ var createWorld=function(){
 var backgroundMove=setInterval(function(){
 
 	world.changePosition();
+
 }, 100);
 
 var car=new Car('background-frame');
@@ -125,5 +137,6 @@ document.onkeydown=function(event){
 
 };
 
+//start
 createWorld();
 
