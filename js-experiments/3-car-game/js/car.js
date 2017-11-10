@@ -1,29 +1,66 @@
+//global declaration
 var CAR_WIDTH=50;
 var mainWrapper=document.getElementById('main-wrapper');
-var frame=document.createElement('div');
-var imageHolder=document.createElement('div');
-var carHolder=document.createElement('div');
-var car;
+var secondWrapper=document.getElementById('second-wrapper');
+
+function World(elementId){
+
+	this.background = new Background(elementId);
+	this.background.create();
+
+	this.car = new Car(this.background.frame);
+	this.car.create();
+}
+
+function Background(parentElement){
+
+	this.mainElement=parentElement;
+	this.backgroundY=0;
+	this.frame='';
+
+	this.create = function(){
+
+		this.frame=document.createElement('div');
+
+		this.frame.setAttribute('id', 'background-frame');
+		this.frame.style.height='730px';
+		this.frame.style.width = '500px';
+		this.frame.style.background = 'url(images/track.png)';
+		this.frame.style.backgroundRepeat = 'repeat-y';
+		this.frame.style.position = 'absolute';
+
+		this.mainElement.appendChild(this.frame);
+	}
+
+	this.update=function(){
+
+		this.backgroundY +=10;
+		this.frame.style.backgroundPositionY=this.backgroundY +'px';  
+	}
+}
 
 function Car(parentElement){
 
-	this.element=document.getElementById(parentElement);
-	this.x=350;
+	this.mainElement=parentElement;
+	this.carPosition='';
+	this.carHolder='';
 
-	this.createCar=function(){
+	this.create=function(){
 
-		carHolder.style.height ='100px';
-		carHolder.style.width='50px';
-		carHolder.style.position = 'absolute';
-		carHolder.style.zIndex = '10';
-		carHolder.style.top = '500px';
-		carHolder.style.left = this.x+'px';
+		this.carHolder=document.createElement('div');
 
-		carHolder.setAttribute('id', 'car-holder');
+		this.carHolder.style.height ='100px';
+		this.carHolder.style.width='50px';
+		this.carHolder.style.position = 'absolute';
+		this.carHolder.style.zIndex = '10';
+		this.carHolder.style.top = '500px';
+		this.carHolder.style.left = this.x+'px';
 
-		frame.appendChild(carHolder);
+		this.carHolder.setAttribute('id', 'car-holder');
 
-		car=document.createElement('img');
+		this.mainElement.appendChild(this.carHolder);
+
+		var car=document.createElement('img');
 
 		car.setAttribute('src', 'images/car.png');
 
@@ -31,85 +68,43 @@ function Car(parentElement){
 		car.style.height='100%';
 		car.style.width = '100%';
 
-		carHolder.appendChild(car);
+		this.carHolder.appendChild(car);
+
 	}
 
-	this.changeDirection=function(direction){
+	this.update=function(direction){
 
-		console.log(this.x);
+		if(this.carPosition<=0){
 
-		if(this.x<=230){
-
-			this.x++;
-			carHolder.style.left=this.x+'px';
+			this.carPosition++;
+			this.carHolder.style.left=this.carPosition+'px';
 		}
-		else if(this.x + CAR_WIDTH >=561){
+		else if(this.carPosition + CAR_WIDTH >=361){
 
-			this.x--;
-			carHolder.style.left=this.x+'px';
+			this.carPosition--;
+			this.carHolder.style.left=this.carPosition+'px';
 		}
 		else{
 
-			this.x=this.x+direction*5;
-			carHolder.style.left=this.x+'px';
+			this.carPosition=this.carPosition+direction*5;
+			this.carHolder.style.left=this.carPosition+'px';
 		}
 
+
 	}
 }
 
-function World(elementId){
-
-	this.element=document.getElementById(elementId);
-	this.top =0;
-
-	this.changePosition=function(){
-
-		this.top +=10;
-		this.element.style.backgroundPositionY=this.top +'px';  
-
-	}
-
-}
-
-
-var createWorld=function(){
-
-	mainWrapper.style.height = '100%';
-	mainWrapper.style.backgroundColor = 'black';
-
-	frame.setAttribute('id', 'background-frame');
-	frame.style.overflow='hidden';
-	frame.style.height = '650px';
-	frame.style.position = 'relative';
-
-	mainWrapper.append(frame);
-
-	imageHolder.style.height='730px';
-	imageHolder.style.width = '500px';
-	imageHolder.style.backgroundColor = 'red';
-	imageHolder.style.left='200px';
-	imageHolder.style.background = 'url(images/track.png)';
-	imageHolder.style.backgroundRepeat = 'repeat-y';
-	imageHolder.style.position = 'absolute';
-
-	imageHolder.setAttribute('id', 'image-holder');
-
-	frame.appendChild(imageHolder);
-
-	var world = new World('image-holder');
-
-// var car = new Car('carGame');
-
+//initial
+var newWorld = new World(mainWrapper);
+var nextWorld=new World(secondWrapper);
 var backgroundMove=setInterval(function(){
 
-	world.changePosition();
+	nextWorld.background.update();
+	newWorld.background.update();
 
 }, 100);
 
-var car=new Car('background-frame');
-
-car.createCar();
-
+//key-press
 document.onkeydown=function(event){
 
 	var keyNumber = event.keyCode;
@@ -122,21 +117,24 @@ document.onkeydown=function(event){
 		//left
 		var move = -1;
 
-		car.changeDirection(move);
-
+		nextWorld.car.update(move);
+		newWorld.car.update(move);
 		break;
 
 		case 39:
 		//right
 		var move =1;
 
-		car.changeDirection(move);
-
+		newWorld.car.update(move);
+		nextWorld.car.update(move);
 	}
 }
 
-};
 
-//start
-createWorld();
+
+
+
+
+
+
 
