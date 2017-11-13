@@ -15,6 +15,7 @@ function World(elementId) {
   this.car = '';
   this.obstacle = '';
   this.obstacles = [];
+  this.resetButton = '';
   this.mainElement = elementId;
 
   var that = this;
@@ -41,22 +42,29 @@ function World(elementId) {
       that.mainElement.removeChild(startButton);
       that.mainElement.removeChild(startHeading);
       that.backgroundCreate();
+      that.carCreate();
     }
   };
 
   this.backgroundCreate = function() {
     this.background = new Background(elementId);
     this.background.create();
-    this.carCreate();
+
+    this.resetButton = document.createElement('button');
+    this.resetButton.appendChild(document.createTextNode('Reset Game'));
+    this.resetButton.style.float = 'right';
+
+    this.mainElement.appendChild(this.resetButton);
 
     backgroundMove = setInterval(function() {
       that.mainElement.style.width = '600px';
       that.mainElement.style.height = '650px';
-
       that.background.update();
+
       counter++;
       for (var x = 0; x < that.obstacles.length; x++) {
         (function(obstructionId) {
+
           if (obstructionId.y + 100 >= 650) {
             that.obstacles.splice(that.obstacles.indexOf(obstructionId), 1);
             obstructionId.removeObstruction(obstructionId);
@@ -65,9 +73,24 @@ function World(elementId) {
           }
         })(that.obstacles[x]);
       }
+      that.collisionCheck();
+
       if (counter % 20 == 0) {
-        newWorld.obstacleCreate();
+        that.obstacleCreate();
       }
+
+      that.resetButton.onclick = function() {
+        clearInterval(backgroundMove);
+        clearInterval(tankCreate);
+
+        while (that.mainElement.hasChildNodes()) {
+          that.mainElement.removeChild(that.mainElement.lastChild);
+        }
+
+        that.obstacles.length = 0;
+        that.worldCreate();
+      }
+
     }, 30);
   };
 
@@ -83,7 +106,6 @@ function World(elementId) {
       this.obstacles.push(this.obstacle);
       this.obstacle.create();
     }
-    this.collisionCheck();
   };
 
   this.collisionCheck = function() {
@@ -92,7 +114,8 @@ function World(elementId) {
       if (this.car.x <= this.obstacles[x].x + this.obstacles[x].width &&
         this.car.x + this.car.width >= this.obstacles[x].x &&
         this.car.y <= this.obstacles[x].y + this.obstacles[x].height &&
-        this.car.height + this.car.y >= this.obstacles[x].y) {
+        this.car.height + this.car.y >= this.obstacles[x].y
+      ) {
         clearInterval(tankCreate);
         clearInterval(backgroundMove);
 
@@ -113,7 +136,6 @@ function World(elementId) {
         boomImage.style.height = '100%';
         boomHolder.appendChild(boomImage);
 
-
         var gameOver = document.createElement('h1');
         var restartButton = document.createElement('button');
 
@@ -129,34 +151,25 @@ function World(elementId) {
         restartButton.onclick = function() {
           that.mainElement.removeChild(gameOver);
           that.mainElement.removeChild(restartButton);
-          backgroundMove = setInterval(function() {
-            that.background.update();
-            for (var x = 0; x < that.obstacles.length; x++) {
-              (function(obstructionId) {
-                if (obstructionId.y + 100 >= 650) {
-                  that.obstacles.splice(that.obstacles.indexOf(obstructionId), 1);
-                  obstructionId.removeObstruction(obstructionId);
-                } else {
-                  obstructionId.update(obstructionId);
-                }
-              })(that.obstacles[x]);
-            }
-          }, 30);
+          clearInterval(backgroundMove);
+          clearInterval(tankCreate);
 
-          tankCreate = setInterval(function() {
-            newWorld.obstacleCreate();
-          }, 500);
+          while (that.mainElement.hasChildNodes()) {
+            that.mainElement.removeChild(that.mainElement.lastChild);
+          }
+
+          that.obstacles.length = 0;
+          that.backgroundCreate();
+          that.carCreate();
         }
       }
     }
   };
 }
 
-
 function Background(parentElement) {
   this.frame = '';
   this.backgroundY = 0;
-  this.resetButton = '';
   this.mainElement = parentElement;
 
   var that = this;
@@ -170,29 +183,13 @@ function Background(parentElement) {
     this.frame.setAttribute('id', 'background-frame');
     this.frame.style.background = 'url(images/track.png)';
 
-    this.resetButton = document.createElement('button');
-    this.resetButton.appendChild(document.createTextNode('Reset Game'));
-    this.resetButton.style.float = 'right';
-
     this.mainElement.appendChild(this.frame);
-    this.mainElement.appendChild(this.resetButton);
   };
 
   this.update = function() {
     this.backgroundY += 10;
     this.frame.style.backgroundPositionY = this.backgroundY + 'px';
 
-    this.resetButton.onclick = function() {
-      clearInterval(backgroundMove);
-      clearInterval(tankCreate);
-
-      while (that.mainElement.hasChildNodes()) {
-        that.mainElement.removeChild(that.mainElement.lastChild);
-      }
-
-      newWorld.obstacles.length = 0;
-      newWorld.worldCreate();
-    }
   };
 }
 
