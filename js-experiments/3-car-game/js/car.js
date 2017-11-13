@@ -191,8 +191,7 @@ function Background(parentElement) {
       }
 
       newWorld.obstacles.length = 0;
-      newWorld.create();
-      // this.mainElement.removeChild(this.resetButton);
+      newWorld.worldCreate();
     }
   };
 }
