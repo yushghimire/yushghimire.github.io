@@ -2,6 +2,8 @@
 var tankCreate;
 var WIDTH = 50;
 var HEIGHT = 100;
+var BULLET_WIDTH = 20;
+var BULLET_HEIGHT = 50;
 var counter = 0;
 var backgroundMove;
 var mainWrapper = document.getElementById('mainWrapper');
@@ -9,7 +11,6 @@ var mainWrapper = document.getElementById('mainWrapper');
 var getRandomValue = function() {
   return Math.floor(Math.random() * 2);
 };
-
 
 function World(elementId) {
   this.car = '';
@@ -32,8 +33,8 @@ function World(elementId) {
     startButton.style.display = 'block';
     startButton.style.margin = '0px auto';
 
-    startHeading.appendChild(document.createTextNode('Start Game'));
-    startButton.appendChild(document.createTextNode('START'));
+    startHeading.appendChild(document.createTextNode('Space to Shoot, direction key to Navigate'));
+    startButton.appendChild(document.createTextNode('PLAY'));
 
     this.mainElement.appendChild(startHeading);
     this.mainElement.appendChild(startButton);
@@ -64,19 +65,54 @@ function World(elementId) {
       counter++;
       for (var x = 0; x < that.obstacles.length; x++) {
         (function(obstructionId) {
-
-          if (obstructionId.y + 100 >= 650) {
-            that.obstacles.splice(that.obstacles.indexOf(obstructionId), 1);
-            obstructionId.removeObstruction(obstructionId);
-          } else {
-            obstructionId.update();
-          }
+          obstructionId.update();
         })(that.obstacles[x]);
       }
-      that.collisionCheck();
 
+      //car collision check
+      that.carCollision();
+
+      if (that.obstacles.length !== 0 && that.obstacles[0].y >= 650) {
+        that.obstacles[0].removeObstruction();
+        that.obstacles.splice(0, 1);
+      }
+
+      //key-press
+      document.onkeydown = function(event) {
+
+        var keyNumber = event.keyCode;
+
+        switch (keyNumber) {
+
+          case 37:
+            //left
+            var moveLeft = 1;
+            that.car.update(moveLeft);
+            break;
+
+          case 32:
+            //bullet only once for certain time  
+            if (that.car.bulletCount < 1) {
+              that.car.bullet();
+            }
+            break;
+
+          case 39:
+            //right
+            var moveRight = -1;
+            that.car.update(moveRight);
+        }
+      };
+
+      //obstacle created every 600ms (20 * 30ms)
       if (counter % 20 == 0) {
         that.obstacleCreate();
+      }
+
+      //one bullet at a time in the screen
+      if (that.car.bulletCount === 1) {
+        that.car.bulletUpdate();
+        that.bulletCollision();
       }
 
       that.resetButton.onclick = function() {
@@ -108,7 +144,8 @@ function World(elementId) {
     }
   };
 
-  this.collisionCheck = function() {
+  //car collision
+  this.carCollision = function() {
 
     for (var x = 0; x < this.obstacles.length; x++) {
       if (this.car.x <= this.obstacles[x].x + this.obstacles[x].width &&
@@ -164,6 +201,31 @@ function World(elementId) {
       }
     }
   };
+
+  this.bulletCollision = function() {
+    for (var x = 0; x < this.obstacles.length; x++) {
+      var bulletLeft = parseInt(this.car.bulletHolder.style.left);
+      var bulletRight = bulletLeft + BULLET_WIDTH; //for checking the bullet boundary
+
+      if (this.car.bulletPosition <= this.obstacles[x].y + this.obstacles[x].height &&
+        bulletRight <= this.obstacles[x].x + this.obstacles[x].width &&
+        bulletLeft + BULLET_WIDTH >= this.obstacles[x].x &&
+        BULLET_HEIGHT + this.car.bulletPosition >= this.obstacles[x].y) {
+
+        this.background.frame.removeChild(this.obstacles[x].obstacleDiv);
+        this.background.frame.removeChild(this.car.bulletHolder);
+        this.car.bulletCount = 0;
+        this.obstacles[x] = null;
+      }
+    }
+
+    for (var x = 0; x < this.obstacles.length; x++) {
+      if (this.obstacles[x] === null) {
+        this.obstacles.splice(this.obstacles.indexOf(this.obstacles[x]), 1);
+        break;
+      }
+    }
+  };
 }
 
 function Background(parentElement) {
@@ -196,10 +258,13 @@ function Car(parentElement) {
   this.x = 150;
   this.y = 500;
   var that = this;
+  this.bulletCount = 0;
   this.carHolder = '';
   this.height = HEIGHT;
   this.carPosition = 150;
-  this.width = WIDTH;
+  this.width = WIDTH + 20;
+  this.bulletHolder = '';
+  this.bulletPosition = 0;
   this.mainElement = parentElement;
 
   this.create = function() {
@@ -240,8 +305,34 @@ function Car(parentElement) {
   };
 
   this.bullet = function() {
+    this.bulletCount++;
+    this.bulletHolder = document.createElement('div');
+    var bulletImage = document.createElement('img');
 
-  }
+    this.bulletHolder.style.position = 'absolute';
+    this.bulletHolder.style.zIndex = '20';
+    this.bulletHolder.style.width = BULLET_WIDTH + 'px';
+    this.bulletHolder.style.height = BULLET_HEIGHT + 'px';
+    this.bulletHolder.style.top = this.y - 30 + 'px'; //adjust the position of the bullet 
+    this.bulletHolder.style.left = this.x + 25 + 'px';
+    bulletImage.style.width = '100%';
+    bulletImage.style.height = '100%';
+    bulletImage.setAttribute('src', 'images/bullet.png');
+
+    this.mainElement.appendChild(this.bulletHolder);
+    this.bulletHolder.appendChild(bulletImage);
+  };
+
+  this.bulletUpdate = function() {
+    this.bulletPosition = parseInt(this.bulletHolder.style.top);
+    this.bulletPosition -= 10;
+    this.bulletHolder.style.top = this.bulletPosition + 'px';
+
+    if (this.bulletPosition <= 0) {
+      this.mainElement.removeChild(this.bulletHolder);
+      this.bulletCount--;
+    }
+  };
 }
 
 function Obstacle(parentElement) {
@@ -256,7 +347,7 @@ function Obstacle(parentElement) {
     var laneTest = getRandomValue() + getRandomValue();
     var obstacleImageHolder = document.createElement('img');
     this.obstacleDiv.style.zIndex = '10';
-    this.obstacleDiv.style.width = WIDTH + 'px';
+    this.obstacleDiv.style.width = this.width + 'px';
     this.obstacleDiv.style.height = HEIGHT + 'px';
     this.obstacleDiv.style.top = this.y + 'px';
     this.obstacleDiv.style.position = 'absolute';
@@ -284,36 +375,11 @@ function Obstacle(parentElement) {
     this.obstacleDiv.style.top = this.y + 'px';
   };
 
-  this.removeObstruction = function(obstacleId) {
-    obstacleId.mainElement.removeChild(obstacleId.obstacleDiv);
+  this.removeObstruction = function() {
+    this.mainElement.removeChild(this.obstacleDiv);
   };
 }
 
 //initial
 var newWorld = new World(mainWrapper);
 newWorld.worldCreate();
-
-//key-press
-document.onkeydown = function(event) {
-
-  var keyNumber = event.keyCode;
-
-  switch (keyNumber) {
-
-    case 37:
-      //left
-      var moveLeft = 1;
-      newWorld.car.update(moveLeft);
-      break;
-
-    case 32:
-      //bullet
-      newWorld.car.bullet();
-      break;
-
-    case 39:
-      //right
-      var moveRight = -1;
-      newWorld.car.update(moveRight);
-  }
-};
