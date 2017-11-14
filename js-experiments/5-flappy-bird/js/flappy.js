@@ -1,10 +1,11 @@
 const TOP_LIMIT = 0;
 const LOWER_LIMIT = 350;
 const WORLD_HEIGHT = 350;
-const GRAVITY = 9.81;
+const GRAVITY = 9.81 ; 
 const FLAPPY_PASS_HEIGHT = 125;
+const WINDOW_WIDTH = window.innerWidth;
 const KEY_CODES = {
-  UP: 38
+  SPACE: 32
 };
 
 let moveWorld;
@@ -61,13 +62,12 @@ class World {
           let birdDirection = 0;
           let keyNumber = event.keyCode;
 
-          if (keyNumber === KEY_CODES.UP) {
+          if (keyNumber === KEY_CODES.SPACE) {
             //up
             if (this.bird.alive === 1) {
               birdDirection = 1;
               this.bird.moveBird(birdDirection);
             }
-
           }
         }
 
@@ -80,7 +80,7 @@ class World {
 
         for (var x = 0; x < this.obstacles.length; x++) {
           this.obstacles[x].updateObstacle();
-          if (this.obstacles[x].x <= 0) {
+          if (this.obstacles[x].x + this.obstacles[x].width <= 0) {
             this.obstacles[x].removeObstacle();
             this.obstacles.splice(this.obstacles[0], 1);
           }
@@ -113,10 +113,12 @@ class World {
     restartButton.style.left = '530px';
     restartButton.style.top = '50px';
 
+    scoreHeading.style.position = "absolute";
 
     endHeading.appendChild(document.createTextNode('Game Over'));
     scoreHeading.appendChild(document.createTextNode('Score: ' + this.score));
     restartButton.appendChild(document.createTextNode('Restart Game'));
+
     this.mainWrapper.appendChild(endHeading);
     this.mainWrapper.appendChild(scoreHeading);
     this.mainWrapper.appendChild(restartButton);
@@ -125,7 +127,7 @@ class World {
       while (this.mainWrapper.hasChildNodes()) {
         this.mainWrapper.removeChild(this.mainWrapper.lastChild);
       }
-      this.bird.alive = 1;  
+      this.bird.alive = 1;
       gameArray.pop(this);
       start();
     }
@@ -134,12 +136,12 @@ class World {
   collision() {
     this.obstacles.forEach((obstacle) => {
 
-      if (this.bird.x === obstacle.x){
+      if (this.bird.x === obstacle.x) {
         this.score++;
       }
       if (this.bird.x <= obstacle.x + obstacle.width &&
         this.bird.x + this.bird.width >= obstacle.x) {
-        
+
         if (this.bird.y <= obstacle.y + obstacle.heightTop ||
           this.bird.y + this.bird.height - 30 >= WORLD_HEIGHT - (obstacle.y + obstacle.heightBottom)) {
           clearInterval(moveWorld);
@@ -175,9 +177,13 @@ class Bird {
   constructor(parentElement) {
     this.x = 300;
     this.y = 20;
+    this.fVelocity = 0;
+    this.iVelocity = 0;
     this.alive = 1;
     this.width = 50;
     this.height = 50;
+    this.time = 0;
+    this.dx = 0;
     this.mainElement = parentElement;
     this.flappyHolder = document.createElement('div');
     this.flappyImage = document.createElement('img');
@@ -198,8 +204,19 @@ class Bird {
 
   };
 
+  //fall of the bird
+  gravity() {
+    let tempTime = this.time;
+    this.iVelocity = this.fVelocity;
+    this.fVelocity = this.iVelocity - GRAVITY * this.time;
+    this.time = this.time + (40 / 1000);
+    this.dx = this.fVelocity * (this.time - tempTime) - GRAVITY * (this.time + tempTime);
+  };
+
+  //automatic downward movement of bird
   updateBird() {
-    this.y = this.y + 5;
+    this.y = this.y - this.dx;
+    this.gravity();
     this.flappyHolder.style.top = this.y + 'px';
 
     if (this.y <= TOP_LIMIT) {
@@ -215,7 +232,10 @@ class Bird {
     }
   };
 
+  //movement from the keyboard
   moveBird(direction) {
+    this.fVelocity = 0;
+    this.time = 0;
     this.y = this.y + (-1) * direction * 50;
     this.flappyHolder.style.top = this.y + 'px';
   };
@@ -223,7 +243,7 @@ class Bird {
 
 class Obstacle {
   constructor(parentElement) {
-    this.x = 1200;
+    this.x = WINDOW_WIDTH;
     this.y = 0;
     this.width = 80;
     this.mainElement = parentElement;
@@ -247,6 +267,8 @@ class Obstacle {
     this.pipeTop.style.backgroundRepeat = 'repeat-y';
     this.pipeTop.style.backgroundPosition = 'center';
     this.pipeTop.style.backgroundImage = 'url(images/pipe.png)';
+
+    let pipeBottomImage = document.createElement('img');
 
     this.pipeBottom.style.width = this.width + 'px';
     this.pipeBottom.style.bottom = '85px';
@@ -273,12 +295,12 @@ class Obstacle {
   }
 }
 
-let start =  () => { 
-
 //initial
-let newWorld = new World();
-newWorld.createWorld();
-gameArray.push(newWorld);
+let start = () => {
+
+  let newWorld = new World();
+  newWorld.createWorld();
+  gameArray.push(newWorld);
 
 }
 
