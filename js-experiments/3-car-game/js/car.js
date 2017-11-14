@@ -114,8 +114,7 @@ function World(elementId) {
       if (this.car.x <= this.obstacles[x].x + this.obstacles[x].width &&
         this.car.x + this.car.width >= this.obstacles[x].x &&
         this.car.y <= this.obstacles[x].y + this.obstacles[x].height &&
-        this.car.height + this.car.y >= this.obstacles[x].y
-      ) {
+        this.car.height + this.car.y >= this.obstacles[x].y) {
         clearInterval(tankCreate);
         clearInterval(backgroundMove);
 
