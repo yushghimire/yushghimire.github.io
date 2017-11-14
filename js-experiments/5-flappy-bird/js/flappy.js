@@ -78,15 +78,15 @@ class World {
           this.obstacle.createObstacle();
         }
 
-        for (var x = 0; x < this.obstacles.length; x++) {
+        for (let x = 0; x < this.obstacles.length; x++) {
           this.obstacles[x].updateObstacle();
-          if (this.obstacles[x].x + this.obstacles[x].width <= 0) {
-            this.obstacles[x].removeObstacle();
-            this.obstacles.splice(this.obstacles[0], 1);
-          }
         }
 
         if (this.obstacles.length !== 0) {
+          if (this.obstacles[0].x + this.obstacles[0].width <= 0) {
+            this.obstacles[0].removeObstacle();
+            this.obstacles.splice(this.obstacles[0], 1);
+          }
           this.collision();
         }
       }, 40)
@@ -134,8 +134,8 @@ class World {
   };
 
   collision() {
-    this.obstacles.forEach((obstacle) => {  
-     
+    this.obstacles.forEach((obstacle) => {
+
       if (this.bird.x <= obstacle.x + obstacle.width &&
         this.bird.x + this.bird.width >= obstacle.x) {
         countScore++;

@@ -238,6 +238,10 @@ function Car(parentElement) {
     }
     this.x = this.carPosition;
   };
+
+  this.bullet = function() {
+
+  }
 }
 
 function Obstacle(parentElement) {
@@ -302,8 +306,9 @@ document.onkeydown = function(event) {
       newWorld.car.update(moveLeft);
       break;
 
-    case 38:
+    case 32:
       //bullet
+      newWorld.car.bullet();
       break;
 
     case 39:
