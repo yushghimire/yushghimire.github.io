@@ -1,13 +1,13 @@
 const TOP_LIMIT = 0;
 const LOWER_LIMIT = 350;
 const WORLD_HEIGHT = 350;
-const GRAVITY = 9.81 ; 
-const FLAPPY_PASS_HEIGHT = 125;
+const GRAVITY = 9.81;
+const FLAPPY_PASS_HEIGHT = 100;
 const WINDOW_WIDTH = window.innerWidth;
 const KEY_CODES = {
   SPACE: 32
 };
-
+let countScore = 0;
 let moveWorld;
 let gameArray = [];
 
@@ -27,7 +27,7 @@ class World {
 
   createWorld() {
     this.mainWrapper.style.height = '500px';
-    this.mainWrapper.style.width = '700px';
+    this.mainWrapper.style.width = '100%';
     this.mainWrapper.style.position = 'relative';
     this.mainWrapper.style.backgroundColor = 'brown';
 
@@ -134,14 +134,15 @@ class World {
   };
 
   collision() {
-    this.obstacles.forEach((obstacle) => {
-
-      if (this.bird.x === obstacle.x) {
-        this.score++;
-      }
+    this.obstacles.forEach((obstacle) => {  
+     
       if (this.bird.x <= obstacle.x + obstacle.width &&
         this.bird.x + this.bird.width >= obstacle.x) {
-
+        countScore++;
+        //everytime bird passes obstacle, the condition accepted 26 times
+        if (countScore % 26 === 0) {
+          this.score++;
+        }
         if (this.bird.y <= obstacle.y + obstacle.heightTop ||
           this.bird.y + this.bird.height - 30 >= WORLD_HEIGHT - (obstacle.y + obstacle.heightBottom)) {
           clearInterval(moveWorld);
