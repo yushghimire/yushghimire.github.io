@@ -2,6 +2,7 @@ const TOP_LIMIT = 0;
 const LOWER_LIMIT = 350;
 const WORLD_HEIGHT = 350;
 const GRAVITY = 9.81;
+const FLAPPY_UP_VELOCITY = 50;
 const FLAPPY_PASS_HEIGHT = 100;
 const WINDOW_WIDTH = window.innerWidth;
 const KEY_CODES = {
@@ -37,60 +38,68 @@ class World {
     this.mainWrapper.appendChild(startHeading);
     this.mainWrapper.appendChild(startButton);
 
-    startHeading.appendChild(document.createTextNode('Start Game'));
-    startButton.appendChild(document.createTextNode('Start'));
+    startHeading.style.textAlign = 'center';
+    startButton.style.display = 'block';
+    startButton.style.margin = '0px auto';
+
+    startHeading.appendChild(document.createTextNode('Press Space to move Flappy Up'));
+    startButton.appendChild(document.createTextNode('Play'));
 
     startButton.onclick = (event) => {
       this.mainWrapper.removeChild(startHeading);
       this.mainWrapper.removeChild(startButton);
-
-      this.background.createBackground();
-      this.bird.createBird();
-
-      moveWorld = setInterval(() => {
-        let result;
-
-        this.background.updateBackground();
-        result = this.bird.updateBird();
-
-        if (result === true) {
-          this.resetWorld();
-        }
-
-        //keypress
-        document.onkeydown = (event) => {
-          let birdDirection = 0;
-          let keyNumber = event.keyCode;
-
-          if (keyNumber === KEY_CODES.SPACE) {
-            //up
-            if (this.bird.alive === 1) {
-              birdDirection = 1;
-              this.bird.moveBird(birdDirection);
-            }
-          }
-        }
-
-        this.counter++;
-        if (this.counter % 50 === 0) {
-          this.obstacle = new Obstacle(this.mainWrapper);
-          this.obstacles.push(this.obstacle);
-          this.obstacle.createObstacle();
-        }
-
-        for (let x = 0; x < this.obstacles.length; x++) {
-          this.obstacles[x].updateObstacle();
-        }
-
-        if (this.obstacles.length !== 0) {
-          if (this.obstacles[0].x + this.obstacles[0].width <= 0) {
-            this.obstacles[0].removeObstacle();
-            this.obstacles.splice(this.obstacles[0], 1);
-          }
-          this.collision();
-        }
-      }, 40)
+      this.moveWorld();
     }
+  };
+
+  moveWorld() {
+    this.background.createBackground();
+    this.bird.createBird();
+
+    //movement 
+    moveWorld = setInterval(() => {
+      let result;
+
+      this.background.updateBackground();
+      result = this.bird.updateBird();
+
+      if (result === true) {
+        this.resetWorld();
+      }
+
+      //keypress
+      document.onkeydown = (event) => {
+        let birdDirection = 0;
+        let keyNumber = event.keyCode;
+
+        if (keyNumber === KEY_CODES.SPACE) {
+          //up
+          if (this.bird.alive === 1) {
+            birdDirection = 1;
+            this.bird.moveBird(birdDirection);
+          }
+        }
+      }
+
+      this.counter++;
+      if (this.counter % 50 === 0) {
+        this.obstacle = new Obstacle(this.mainWrapper);
+        this.obstacles.push(this.obstacle);
+        this.obstacle.createObstacle();
+      }
+
+      for (let x = 0; x < this.obstacles.length; x++) {
+        this.obstacles[x].updateObstacle();
+      }
+
+      if (this.obstacles.length !== 0) {
+        if (this.obstacles[0].x + this.obstacles[0].width <= 0) {
+          this.obstacles[0].removeObstacle();
+          this.obstacles.splice(this.obstacles[0], 1);
+        }
+        this.collision();
+      }
+    }, 40)
   };
 
   resetWorld() {
@@ -129,7 +138,7 @@ class World {
       }
       this.bird.alive = 1;
       gameArray.pop(this);
-      start();
+      start(); //calling function outside the object
     }
   };
 
@@ -209,14 +218,14 @@ class Bird {
   gravity() {
     let tempTime = this.time;
     this.iVelocity = this.fVelocity;
-    this.fVelocity = this.iVelocity - GRAVITY * this.time;
+    this.fVelocity = this.iVelocity + GRAVITY * this.time;
     this.time = this.time + (40 / 1000);
-    this.dx = this.fVelocity * (this.time - tempTime) - GRAVITY * (this.time + tempTime);
+    this.dx = this.fVelocity * (this.time - tempTime) + GRAVITY * (this.time + tempTime);
   };
 
   //automatic downward movement of bird
   updateBird() {
-    this.y = this.y - this.dx;
+    this.y = this.y + this.dx;
     this.gravity();
     this.flappyHolder.style.top = this.y + 'px';
 
@@ -298,11 +307,10 @@ class Obstacle {
 
 //initial
 let start = () => {
-
   let newWorld = new World();
+
   newWorld.createWorld();
   gameArray.push(newWorld);
-
 }
 
 start();
