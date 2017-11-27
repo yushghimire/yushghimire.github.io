@@ -1,0 +1,16 @@
+* {
+  font-family: 'Atomic Age', cursive;
+
+  margin: 0;
+  padding: 0;
+}
+
+.clearfix:after {
+  display: block;
+  visibility: hidden;
+  clear: both;
+
+  height: 0;
+
+  content: ' ';
+}

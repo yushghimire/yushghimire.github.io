@@ -1,0 +1,147 @@
+.main-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.start-menu {
+  position: relative;
+  display: block;
+}
+
+.start-image {
+  display: block;
+  width: 800px;
+  height: 450px;
+  margin: 0 auto;
+}
+
+.button-holder {
+  position: absolute;
+  top: 100px;
+  left: 425px;
+}
+
+.button-holder>span {
+  font-size: 60px;
+  font-weight: bold;
+  display: block;
+  color: #000;
+}
+
+.button-holder>span:hover {
+  cursor: pointer;
+  color: #fff;
+}
+
+.level-selector {
+  display: none;
+  width: 800px;
+  height: 450px;
+}
+
+.level-list {
+  width: 800px;
+  height: 450px;
+  background: url('../images/level-selector.jpg');
+  background-repeat: no-repeat;
+  background-size: 800px 450px;
+}
+
+
+.level-list>h2 {
+  font-size: 30px;
+  padding: 0 160px;
+  text-align: right;
+  color: #fff;
+}
+
+.level-list>ul {
+  float: right;
+  width: 400px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.level-list>ul>li {
+  position: relative;
+  float: left;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+  margin: 10px 10px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  border-radius: 5px;
+}
+
+.level-list>ul>li>img {
+  width: 100%;
+  height: 100%;
+}
+
+.level-list>ul>li:hover img {
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
+.game-holder {
+  display: none;
+  position: relative;
+}
+
+.world-canvas {
+  margin: 0 auto;
+  display: block;
+  border: 1px solid;
+}
+
+.bike-canvas {
+  position: absolute;
+  top: 0;
+  left: 20%;
+}
+
+.time-display {
+  font-size: 30px;
+  position: absolute;
+  top: 6.66667%;
+  right: 25%;
+  color: red;
+}
+
+.game-over {
+  display: none;
+  position: absolute;
+  background-color: #000;
+  opacity: 0.5;
+  border-radius: 5px;
+  padding: 40px 20px;
+  top: 150px;
+  left: 600px;
+}
+
+.game-over>h2 {
+  color: #fff;
+}
+
+.game-over-list {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  color: #fff;
+  text-align: center;
+}
+
+.game-over-list>li {
+  cursor: pointer;
+  margin: 10px;
+}
+
+.game-over-list>li:hover {
+  color: #ff0000;
+}
+
+.game-over-list>li:last-of-type:hover {
+  color: #fff;
+}
