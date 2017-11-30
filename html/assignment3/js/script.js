@@ -16,24 +16,23 @@ var projectCounter = 4;
 var imageSlideCount = 0;
 
 //search
-// var navBarBlock;
-// var navBar = document.getElementById('navBar');
-// navBarList = navBar.getElementsByTagName('li');
 
-// // for portfolio
-// navBarList[3].onmousedown = function() {
+var navBarSearch = document.getElementById('navBarSearch');
 
-//   navBarBlock = navBarList[3].getElementsByTagName('ul');
+// for portfolio
+navBarSearch.onmousedown = function() {
 
-//   navBarBlock[0].style.display = 'block';  
-// }
+  navBarBlock = navBarSearch.children[0];
 
-// navBarList[3].onmouseout = function() {
+  navBarBlock.style.display = 'block';  
+}
 
-//   navBarBlock = navBarList[3].getElementsByTagName('ul');
+navBarSearch.onmouseup = function() {
 
-//   navBarBlock[0].style.display = 'none';  
-// }
+  navBarBlock = navBarSearch.children[0];
+
+  navBarBlock.style.display = 'none';  
+}
 
 // // for portfolio
 // navBarList[7].onmousedown = function() {
@@ -237,7 +236,6 @@ projectLeft.onclick = function() {
 
     if (projectCounter && (i + projectCounter) < boxSet.children.length) {
       
-
       boxSet.children[i + projectCounter].style.display = 'none';
     }
 
@@ -267,9 +265,11 @@ projectLeft.onclick = function() {
 
   }, 20);
 
+
   if (canSlide)
     projectCounter -= PROJECT_ROWS;
-
+  else 
+    projectCounter = 0;
 
   return false;
 };
