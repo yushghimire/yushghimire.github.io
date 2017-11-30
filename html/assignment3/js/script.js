@@ -178,20 +178,22 @@ sliderRight[0].onclick = function() {
 
 projectRight.onclick = function() {
 
-  let temp = []; //tempoorary anrray
+  let temp = []; //temporary anrray
   opacity = 0;
+
 
   for (var i = 0; i < PROJECT_ROWS; i++) {
 
     if (projectCounter) {
-
+     
       boxSet.children[i + projectCounter - 4].style.display = 'none';
     }
 
     if ((i + projectCounter) >= boxSet.children.length) {
       canSlide = false;
       break;
-    }
+    } else 
+      canSlide = true;
 
     let value = i + projectCounter;
     temp.push(value);
@@ -205,7 +207,6 @@ projectRight.onclick = function() {
 
       boxSet.children[value].style.opacity = opacity;
       boxSet.children[value].style.display = 'list-item';
-
     }
 
     opacity += 0.01;
@@ -219,6 +220,7 @@ projectRight.onclick = function() {
   if (canSlide)
     projectCounter += PROJECT_ROWS;
 
+
   return false;
 };
 
@@ -231,17 +233,20 @@ projectLeft.onclick = function() {
 
     let value = i + projectCounter - 4;
     temp.push(value);
-    // boxSet.children[i + projectCounter - 4].style.display = 'list-item';
+
 
     if (projectCounter && (i + projectCounter) < boxSet.children.length) {
+      
 
       boxSet.children[i + projectCounter].style.display = 'none';
     }
 
     if (projectCounter <= 0) {
+      projectCounter = 4;
       canSlide = false;
       break;
-    }
+    } else 
+      canSlide = true;
   }
 
   loop = setInterval(function() {
@@ -264,6 +269,7 @@ projectLeft.onclick = function() {
 
   if (canSlide)
     projectCounter -= PROJECT_ROWS;
+
 
   return false;
 };
