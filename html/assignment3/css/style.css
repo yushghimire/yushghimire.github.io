@@ -73,10 +73,9 @@
   width: auto;
 }
 
-
-/*.navbar ul li:hover .search-box {
+.navbar ul li:hover .search-box {
   display: block;
-}*/
+}
 
 .navbar ul li ul li .search-box {
   /*display: block;*/
@@ -701,6 +700,9 @@
     width: 48%;
   }
   .project-box:first-of-type {
+    padding: 10px 2px;
+  }
+  .project-box:nth-child(4){
     padding: 10px 2px;
   }
   .project-box:last-of-type {

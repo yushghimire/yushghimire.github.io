@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dirt Bike</title>
+  <link rel="stylesheet" type="text/css" href="styles/reset.css">
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Atomic+Age" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+</head>
+
+<body>
+  <div id="mainWrapper" class="main-wrapper">
+    <!-- start -->
+    <div id="startMenu" class="start-menu">
+      <img class="start-image" src="images/start.jpg" alt="bike-start">
+      <div id="buttonHolder" class="button-holder">
+        <span>PLAY</span>
+      </div>
+    </div>
+    <!-- select level -->
+    <div id="levelSelector" class="level-selector">
+      <div class="level-list clearfix">
+        <span>BACK</span>
+        <h2>LEVELS</h2>
+        <ul>
+          <li><img src="images/jungle.jpg" alt="jungle image"></li>
+          <li><img src="images/snowImage.jpg" alt="snow image"></li>
+          <li><img src="images/fire.jpg" alt="fire image"></li>
+          <li><img src="images/desert.jpg" alt="desert image"></li>
+        </ul>
+      </div>
+    </div>
+    <!-- game play -->
+    <div id="gameHolder" class="game-holder">
+      <canvas id="worldCanvas" class="world-canvas"></canvas>
+      <canvas id="bikeCanvas" class="bike-canvas"></canvas>
+      <div class="time-display">
+        <span id="minutes"></span>
+        <span id="seconds"></span>
+      </div>
+      <div id="gameOver" class="game-over">
+        <h2>Game Over</h2>
+        <ul class="game-over-list">
+          <li>Restart</li>
+          <li>Change Level</li>
+          <li>Exit</li>
+          <li>Score:</li>
+          <li>
+            <ul id="starHolder">
+              <li>&nbsp;</li>
+              <li>&nbsp;</li>
+              <li>&nbsp;</li>
+            </ul>
+          </li>
+        </ul>  
+      </div>
+    </div>
+    <!-- script-->
+    <script src="src/constants.js"></script>
+    <script src="src/globals.js"></script>
+    <script src="src/utils.js"></script>
+    <script src="src/object.js"></script>
+    <script src="src/Timer.js"></script>
+    <script src="src/Coin.js"></script>
+    <script src="src/Sound.js"></script>
+    <script src="src/Game.js"></script>
+    <script src="src/Path.js"></script>
+    <script src="src/Wheel.js"></script>
+    <script src="src/Window.js"></script>
+    <script src="src/Level.js"></script>
+    <script src="src/Buffer.js"></script>
+    <script src="src/SpriteSheet.js"></script>
+    <script src="src/script.js"></script>
+</body>
+
+</html>

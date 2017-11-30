@@ -3,17 +3,56 @@ var PROJECT_ROWS = 4;
 var liItems;
 var liImages;
 var imageWidth;
-var imageNumber;
 var transition;
+var imageNumber;
+
 
 var value = 0;
 var counter = 0;
 var opacity = 0;
+var toggle = true;
 var canSlide = true;
 var projectCounter = 4;
 var imageSlideCount = 0;
 
+//search
+// var navBarBlock;
+// var navBar = document.getElementById('navBar');
+// navBarList = navBar.getElementsByTagName('li');
+
+// // for portfolio
+// navBarList[3].onmousedown = function() {
+
+//   navBarBlock = navBarList[3].getElementsByTagName('ul');
+
+//   navBarBlock[0].style.display = 'block';  
+// }
+
+// navBarList[3].onmouseout = function() {
+
+//   navBarBlock = navBarList[3].getElementsByTagName('ul');
+
+//   navBarBlock[0].style.display = 'none';  
+// }
+
+// // for portfolio
+// navBarList[7].onmousedown = function() {
+
+//   navBarBlock = navBarList[naBarList.length - 1].getElementsByTagName('ul');
+
+//   navBarBlock[0].style.display = 'block';  
+// }
+
+// navBarList[naBarList.length - 1].onmouseout = function() {
+
+//   navBarBlock = navBarList[naBarList.length - 1].getElementsByTagName('ul');
+
+//   navBarBlock[0].style.display = 'none';  
+// }
+
 var ul = document.getElementById('bannerSlider');
+
+//selection
 var selection = document.getElementById('selection');
 var selectionList = selection.getElementsByTagName('li');
 
@@ -68,7 +107,6 @@ var imageHolder = [{
 //title slider
 sliderBtnLeft.onclick = function() {
 
-  counter = 0;
 
   if (imageSlideCount > 0)
     imageSlideCount--;
@@ -80,7 +118,6 @@ sliderBtnLeft.onclick = function() {
 
 sliderBtnRight.onclick = function() {
 
-  counter = 0;
 
   if (imageSlideCount < imageHolder.length - 1)
     imageSlideCount++;
@@ -93,25 +130,32 @@ sliderBtnRight.onclick = function() {
 //main slider
 sliderLeft[0].onclick = function() {
 
-  var goingLeft = true;
+  if (toggle) {
 
-  slider(counter, goingLeft);
+    var goingLeft = true;
 
-  if (counter >= 0)
-    counter--;
+    toggle = false;
 
-  activeSelection(counter);
+    slider(counter, goingLeft);
 
-  if (counter === 1)
-    bannerBtnRight.style.display = 'block';
+    if (counter >= 0)
+      counter--;
 
-  else if (counter <= 0)
-    bannerBtnLeft.style.display = 'none';
+    activeSelection(counter);
 
+    if (counter === 1)
+      bannerBtnRight.style.display = 'block';
+
+    else if (counter <= 0)
+      bannerBtnLeft.style.display = 'none';
+  }
   return false;
 };
 
 sliderRight[0].onclick = function() {
+
+  if (toggle) {
+    toggle = false;
 
   if (counter < imageHolder.length - 1)
     counter++;
@@ -127,7 +171,7 @@ sliderRight[0].onclick = function() {
 
   } else if (counter === 1)
     bannerBtnLeft.style.display = 'block';
-
+  }
 
   return false;
 };
@@ -224,15 +268,6 @@ projectLeft.onclick = function() {
   return false;
 };
 
-function fadeIn(indexs) {
-
-
-};
-
-function fadeOut() {
-
-};
-
 //shows the first 4 projects
 function showProject() {
   for (var i = 0; i < 4; i++) {
@@ -249,7 +284,7 @@ function init() {
   imageWidth = liItems[0].children[0].offsetWidth;
 
   // set ul’s width as the total width of all images in image slider.
-  ul.style.width = parseInt(imageWidth * imageNumber) + 'px';
+  ul.style.width = parseInt(imageWidth * imageNumber) + 'em';
 };
 
 //move the main slide
@@ -258,6 +293,7 @@ function slider(counter, goingLeft) {
   liItems = ul.children;
   imageNumber = liItems.length;
   imageWidth = liItems[0].children[0].offsetWidth;
+
 
   if (counter <= liItems.length - 1) {
     transition = setInterval(function() {
@@ -273,9 +309,10 @@ function slider(counter, goingLeft) {
 
       if (value % imageWidth === 0 && !goingLeft) {
         clearInterval(transition);
+        toggle = true;
 
       } else if (value % imageWidth === 0 && goingLeft) {
-
+        toggle = true;
         clearInterval(transition);
 
       }
